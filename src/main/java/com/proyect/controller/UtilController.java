@@ -37,7 +37,7 @@ public class UtilController {
 	public String verProducto(Model model) {
 		//crear atributos
 		model.addAttribute("catalogos", catalogoService.findAll());
-		return "productos";
+		return "index";
 	}
 
 	/*@RequestMapping("/")
