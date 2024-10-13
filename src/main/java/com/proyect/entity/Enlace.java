@@ -7,18 +7,18 @@ import lombok.*;
 import java.util.List;
 
 
-@Table(name = "enlace")
+@Table(name = "enlaces")
 @Entity
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = "idenlace")
+@EqualsAndHashCode(of = "id_enlace")
 public class Enlace {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idenlace;
+    private Long id_enlace;
     private String nombre;
     private String url;
     //private String icono;

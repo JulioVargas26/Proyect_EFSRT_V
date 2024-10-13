@@ -36,13 +36,20 @@
 			</button>
 
 			<div class="collapse navbar-collapse" id="mynavbar">
-				<ul class="navbar-nav me-auto mb-2 mb-lg-0" style="padding-left: 30px;">
+				<!--<ul class="navbar-nav me-auto mb-2 mb-lg-0" style="padding-left: 30px;">
 					<li class="nav-item" th:each="bean:${session.ENLACES}">
 						<a class="nav-link" th:text="${bean.descripcion}" th:href="${bean.ruta}" ></a>
 					</li>
 
+				</ul>-->
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0" style="padding-left: 10px;">
+					<li class="nav-item"><a class="nav-link" href="/">Productos</a></li>
+					<li class="nav-item"><a class="nav-link" href="/proveedor">Proveedores</a></li>
 				</ul>
-				<ul class="navbar-nav ml-auto">
+
+
+
+				<!--<ul class="navbar-nav ml-auto">
 					<div class="flex" style="width:200px!important;padding-top: 10px;font-weight:bold ">
 						<span class="text-white">Usuario: </span><span class="text-white" th:text="${session.datosUsuario}"></span>
 					</div>
@@ -50,18 +57,365 @@
 					<form method="post" th:action="@{/logout}">
 						<input type="submit" class="btn btn-success" value="Cerrar sesión">
 					</form>
-				</ul>
-				<!--            <form class="d-flex">-->
-				<!--                <input class="form-control me-2" type="text" placeholder="Search">-->
-				<!--                <button class="btn btn-primary" type="button">Search</button>-->
-				<!--            </form>-->
+				</ul>-->
 			</div>
 		</div>
 	</nav>
 </div>
 
 <!--crear fragmento "pie" -->
+<div th:fragment="modelsProducto">
 
+	<!-- The Modal -->
+	<div class="modal" id="id_div_modal_producto">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="text-center">
+						<i class="bi bi-clipboard2-check"></i>  ::
+						DATOS PRODUCTO  ::
+					</h4>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body">
+					<form method="POST" id="id_form_producto"
+						  th:action="@{/insertProducto}">
+						<!--<form  th:action="@{~/insertProducto}" th:method="${obj.id_prod} != null ? PUT : POST" modelAttribute="obj" th:object="${obj}">-->
+						<input type="hidden" id="id_producto_ID" name="cod_producto" value="0">
+						<div id="accordion_reg_prod">
+
+							<div class="card">
+								<div class="card-header">
+									<h4 class="text-center" >
+										Datos de Productos
+									</h4>
+								</div>
+								<div  class="collapse show" >
+									<div class="card-body">
+
+										<div class="row form-group mb-3 ">
+											<div class="col-sm-6">
+												<label class="col-lg-4 form-label"
+													   for="id_reg_cod_prod">Codigo </label>
+												<div class="input-group col-lg-8 ">
+														<span class="input-group-text"><i
+																class="bi bi-boxes"></i></span><input
+														class="form-control input-sm" type="text"
+														id="id_reg_cod_prod" name="cod_prod"
+														autocomplete="off" placeholder="Ingrese el codigo">
+												</div>
+											</div>
+											<div class="col-sm-6 ">
+												<label class="col-lg-4 form-label"
+													   for="id_reg_sto_prod">Cantidad </label>
+												<div class="input-group col-lg-8 ">
+														<span class="input-group-text"><i
+																class="bi bi-boxes"></i></span><input
+														class="form-control input-sm" type="number" step="any"
+														id="id_reg_sto_prod" name="sto_prod" autocomplete="off"
+														placeholder="Ingrese el Stock">
+												</div>
+											</div>
+
+										</div>
+
+										<div class="row form-group mb-3">
+
+											<div class="col-sm-6">
+												<label class="col-lg-4 form-label" for="id_reg_tipo_moneda">Tipo
+													Moneda </label>
+												<div class="input-group col-lg-8">
+                                                <span class="input-group-text"><i
+														class="bi bi-box2-heart-fill"></i></span>
+													<select id="id_reg_tipo_moneda" name="tip_mone"
+															class="form-select">
+														<option value="">[Seleccione]</option>
+													</select>
+
+												</div>
+											</div>
+											<div class="col-sm-6 ">
+												<label class="col-lg-4 form-label"
+													   for="id_reg_pre_prod">Precio Unitario</label>
+												<div class="input-group col-lg-8 ">
+														<span class="input-group-text"><i class="bi bi-currency-dollar"></i></span><input
+														class="form-control input-sm" type="number" step="any"
+														id="id_reg_pre_prod" name="pre_prod" autocomplete="off"
+														placeholder="Ingrese el Precio">
+												</div>
+											</div>
+										</div>
+
+										<div class="row form-group mb-3">
+											<div class="col-sm-6">
+												<label class="col-lg-4 form-label" for="id_reg_tipo_documento">Tipo Documento </label>
+												<div class="input-group col-lg-8">
+                                                <span class="input-group-text"><i
+														class="bi bi-box2-heart-fill"></i></span>
+													<select id="id_reg_tipo_documento" name="tip_docu"
+															class="form-select">
+														<option value="">[Seleccione]</option>
+													</select>
+
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<label class="col-lg-4 form-label"
+													   for="id_reg_nro_doc_prod">Nro. Documento </label>
+												<div class="input-group col-lg-8 ">
+														<span class="input-group-text"><i class="bi bi-file-earmark"></i></span><input
+														class="form-control input-sm" type="text"
+														id="id_reg_nro_doc_prod" name="doc_prod"
+														autocomplete="off" placeholder="Ingrese el Nro de Documento">
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group mb-3">
+											<label class="col-lg-2 form-label"
+												   for="id_reg_des_prod">Descripcion  </label>
+											<div class="input-group col-lg-9 ">
+													<span class="input-group-text"><i
+															class="bi bi-boxes"></i></span><textarea
+													class="form-control input-sm" type="text"
+													id="id_reg_des_prod" name="des_prod" autocomplete="off"
+													placeholder="Ingrese la Descripcion del Producto"></textarea>
+											</div>
+										</div>
+
+										<div class="row form-group mb-3">
+											<div class="col-sm-6">
+												<label class="col-lg-4 form-label" for="id_reg_catalogo">Tipo
+												</label>
+												<div class="input-group col-lg-8">
+													<span class="input-group-text"><i class="bi bi-box2-heart-fill"></i></span>
+													<select id="id_reg_catalogo" name="catalogo" class="form-select">
+														<option value=" ">[Seleccione Tipo]</option>
+														<option th:each="x:${catalogos}" th:utext="${x.descripcion}" th:value="${x.id_catalogo}" />
+													</select>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<label class="col-lg-4 form-label" for="id_reg_data_catalogo">Sub Tipo </label>
+												<div class="input-group col-lg-8">
+													<span class="input-group-text"><i class="bi bi-box2-heart-fill"></i></span>
+													<select id="id_reg_data_catalogo" name="data_catalogo" class="form-select">
+													</select>
+												</div>
+											</div>
+										</div>
+
+
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+						<div class="row">
+							<div class="form-group col-md-12 mt-3">
+								<div class="col-md-12" align="center">
+									<button type="button" class="btn btn-primary"
+											id="id_btn_registra">Guardar
+									</button>
+									<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--crear fragmento "pie" -->
+<div th:fragment="modelsProveedor">
+
+	<!-- The Modal -->
+	<div class="modal" id="id_div_modal_proveedor">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="text-center">
+						<i class="bi bi-clipboard2-check"></i>  ::
+						DATOS PROVEEDOR  ::
+					</h4>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body">
+					<form method="POST" id="id_form_proveedor"
+						  th:action="@{/insertProveedor}">
+						<!--<form  th:action="@{~/insertProducto}" th:method="${obj.id_prod} != null ? PUT : POST" modelAttribute="obj" th:object="${obj}">-->
+						<input type="hidden" id="id_proveedor_ID" name="cod_proveedor" value="0">
+						<div id="accordion_reg_prov">
+
+							<div class="card">
+								<div class="card-header">
+									<h4 class="text-center" >
+										Datos de Proveedor
+									</h4>
+								</div>
+								<div  class="collapse show" >
+									<div class="card-body">
+
+										<div class="row form-group mb-3 ">
+											<!-- INICIO PANEL BUSCAR POR DOCUMENTO -->
+											<div class="col-sm-6">
+												<label class="col-lg-4 control-label"
+													   for="id_buscar_api_numero_documento"> Numero RUC </label>
+												<div class="input-group col-lg-8 ">
+														<input
+														class="form-control input-sm" type="text" maxlength="11"
+														id="id_buscar_api_numero_documento" name="ruc"
+														autocomplete="off" placeholder="ingrese el numero de documento">
+													<span class="input-group-text" type="button" id="btnConsultaSunat"><i
+														class="bi bi-search"></i></span>
+												</div>
+												<h6 id="id_msg_error_api_dni" style="display: none;color:red;">ERROR AL
+													CONSULTAR EL DOCUMENTO
+													-
+													INTENTAR NUEVAMENTE</h6>
+												<h6 id="id_msg_success_api_dni"
+													style="display: none;color:rgb(36, 255, 94);">SE ENCONTRARON
+													DATOS
+												</h6>
+											</div>
+											<!-- FIN PANEL BUSCAR POR DOCUMENTO -->
+											<div class="col-sm-6 ">
+												<label class="col-lg-4 control-label"
+													   for="id_reg_razon_social">Razon social </label>
+												<div class="input-group col-lg-8 ">
+														<span class="input-group-text"><i
+																class="bi bi-boxes"></i></span><input
+														class="form-control input-sm" type="text"
+														id="id_reg_razon_social" name="razon_social" autocomplete="off"
+														placeholder="Razon Social">
+												</div>
+											</div>
+
+										</div>
+
+										<div class="form-group mb-3">
+											<label class="col-lg-2 control-label"
+												   for="id_reg_direccion_fiscal">Direccion </label>
+											<div class="input-group col-lg-9 ">
+													<span class="input-group-text"><i
+															class="bi bi-boxes"></i></span>
+												<input
+														class="form-control input-sm" type="text"
+														id="id_reg_direccion_fiscal" name="direccion_fiscal"
+														autocomplete="off" placeholder="Direccion Fiscal">
+											</div>
+										</div>
+
+										<div class="row form-group mb-3">
+
+											<div class="col-sm-6">
+												<label class="col-lg-4 control-label"
+													   for="id_reg_condicion_ruc">Condicion </label>
+												<div class="input-group col-lg-8">
+                                                <span class="input-group-text"><i
+														class="bi bi-boxes"></i></span><input
+														class="form-control input-sm" type="text"
+														id="id_reg_condicion_ruc" name="condicion_ruc"
+														autocomplete="off" placeholder="Condicion">
+
+												</div>
+											</div>
+											<div class="col-sm-6 ">
+												<label class="col-lg-4 control-label"
+													   for="id_reg_estado_ruc">Estado </label>
+												<div class="input-group col-lg-8 ">
+														<span class="input-group-text"><i
+																class="bi bi-boxes"></i></span><input
+														class="form-control input-sm" type="text"
+														id="id_reg_estado_ruc" name="estado_ruc" autocomplete="off"
+														placeholder="Estado">
+												</div>
+											</div>
+										</div>
+
+										<div class="row form-group mb-3">
+											<div class="col-sm-6">
+												<label class="col-lg-4 control-label" for="id_reg_tipo_contacto">Tipo
+													Contacto </label>
+												<div class="input-group col-lg-8">
+                                                <span class="input-group-text"><i
+														class="bi bi-box2-heart-fill"></i></span>
+													<select id="id_reg_tipo_contacto" name="tipo_contacto"
+															class="form-select">
+														<option value="">[Seleccione]</option>
+													</select>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<label class="col-lg-4 control-label"
+													   for="id_reg_nombre_contacto"> Nombre </label>
+												<div class="input-group col-lg-8 ">
+														<span class="input-group-text"><i
+																class="bi bi-boxes"></i></span><input
+														class="form-control input-sm" type="text"
+														id="id_reg_nombre_contacto" name="nombre_contacto" autocomplete="off"
+														placeholder="Ingrese Nombre Contacto">
+												</div>
+											</div>
+										</div>
+
+										<div class="row form-group mb-3">
+											<div class="col-sm-6">
+												<label class="col-lg-4 control-label"
+													   for="id_reg_telefono_prov">Telefono/Celular </label>
+												<div class="input-group col-lg-8">
+													<span class="input-group-text"><i
+															class="bi bi-boxes"></i></span><input
+														class="form-control input-sm" type="tel"
+														id="id_reg_telefono_prov" name="telefono_contacto"
+														autocomplete="off" placeholder="Ingrese Telefono">
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<label class="col-lg-4 control-label"
+													   for="id_reg_email_prov">E-mail </label>
+												<div class="input-group col-lg-8 ">
+														<span class="input-group-text"><i
+																class="bi bi-boxes"></i></span><input
+														class="form-control input-sm" type="text"
+														id="id_reg_email_prov" name="email_contacto" autocomplete="off"
+														placeholder="Ingrese Correo Electronico">
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+						<div class="row">
+							<div class="form-group col-md-12 mt-3">
+								<div class="col-md-12" align="center">
+									<button type="button" class="btn btn-primary"
+											id="id_btn_reg_prov">Guardar
+									</button>
+									<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
 
 </body>

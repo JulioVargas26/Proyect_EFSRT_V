@@ -11,7 +11,7 @@ import lombok.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id_user")
+@EqualsAndHashCode(of = "iduser")
 public class Usuario {
 
     @Id

@@ -5,7 +5,7 @@ import com.proyect.util.Registros;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Table(name = "movimiento")
+@Table(name = "movimientos")
 @Entity
 @Setter
 @Getter
@@ -22,17 +22,17 @@ public class Movimiento {
 
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="idTipoMovimiento")
-    private TipoMovimiento tipoMovimiento;
+    @JoinColumn(name="id_tipo_movimiento")
+    private TipoMovimiento tipo_movimiento;
 
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="idUsuario")
+    @JoinColumn(name="id_usuario")
     private Usuario usuario;
 
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="idProveedor")
+    @JoinColumn(name="id_proveedor")
     private Proveedor proveedor;
 
     @Embedded

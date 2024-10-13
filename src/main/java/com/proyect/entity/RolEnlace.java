@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Table(name = "rolEnlace")
+@Table(name = "rol_enlace")
 @Entity
 @Setter
 @Getter
@@ -21,11 +21,11 @@ public class RolEnlace {
 
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name = "idrol",insertable = false,updatable = false,referencedColumnName ="idrol")
+    @JoinColumn(name = "id_rol",insertable = false,updatable = false,referencedColumnName ="id_rol")
     private Rol rol;
 
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name="idenlace",insertable = false,updatable = false,referencedColumnName = "idenlace")
+    @JoinColumn(name="id_enlace",insertable = false,updatable = false,referencedColumnName = "id_enlace")
     private Enlace enlace;
 }

@@ -4,7 +4,7 @@ import com.proyect.util.Registros;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Table(name = "proveedor")
+@Table(name = "proveedores")
 @Entity
 @Setter
 @Getter

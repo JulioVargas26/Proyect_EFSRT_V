@@ -47,7 +47,7 @@ public class ProductoController {
 
     @PostMapping("/insertProducto")
     @ResponseBody
-    public Map<?, ?> registrarProducto(@ModelAttribute Producto obj, @RequestParam(name = "codigo") Long cod) {
+    public Map<?, ?> registrarProducto(@ModelAttribute Producto obj, @RequestParam(name = "cod_producto") Long cod) {
         HashMap<String, Object> map = new HashMap<String, Object>();
 
         System.out.println("CODIGO PRODUCTO : " + obj.getCod_prod());
@@ -57,7 +57,7 @@ public class ProductoController {
         System.out.println("STOCK PRODUCTO : " + obj.getSto_prod());
         System.out.println("TIPO DOCUMENTO : " + obj.getTip_docu());
         System.out.println("DOCUMENTO PRODUCTO : " + obj.getDoc_prod());
-        System.out.println("DATA CATALOGO : " + obj.getDataCatalogo().getIdDataCatalogo());
+        System.out.println("DATA CATALOGO : " + obj.getData_catalogo().getId_data_catalogo());
         System.out.println("REGISTROS : " + obj.getRegistros().getActivo() + " " + obj.getRegistros().getCreation_date() + " " + obj.getRegistros().getModification_date());
         try {
             if (cod == 0) {

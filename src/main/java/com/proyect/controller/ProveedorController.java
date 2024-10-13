@@ -1,5 +1,6 @@
 package com.proyect.controller;
 
+import com.proyect.entity.Producto;
 import com.proyect.entity.Proveedor;
 import com.proyect.service.DataCatalogoService;
 import com.proyect.service.ProveedorService;
@@ -15,8 +16,6 @@ import static com.proyect.util.MessagesUtil.*;
 @Controller
 public class ProveedorController {
 
-	@Autowired
-	DataCatalogoService dataCatalogoService;
 	@Autowired
 	ProveedorService ProveedorService;
 
@@ -47,7 +46,7 @@ public class ProveedorController {
 
 	@PostMapping("/insertProveedor")
 	@ResponseBody
-	public Map<?, ?> registrarProveedor( Proveedor obj) {
+	public Map<?, ?> registrarProveedor( Proveedor obj, @RequestParam(name = "cod_proveedor") Long cod) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 
 		System.out.println("CODIGO Proveedor : " + obj.getId_prov());
@@ -60,27 +59,52 @@ public class ProveedorController {
 
 		System.out.println("REGISTROS : " + obj.getRegistros().getActivo() + " " + obj.getRegistros().getCreation_date() + " " + obj.getRegistros().getModification_date());
 
-		Proveedor objSalida = ProveedorService.insertar(obj);
-		System.out.println("ID NUEVO PROVEEDOR : " + objSalida.getId_prov());
+		try {
+			if (cod == 0) {
+				Proveedor objSalida = ProveedorService.insertar(obj);
+				System.out.println("ID NUEVO PROVEEDOR : " + objSalida.getId_prov());
 
-		if (objSalida == null) {
-			System.out.println("ERROR AL REGISTRAR PROVEEDOR");
-			map.put(DEFAULT_MESSAGE_ERROR_KEY, MSG_ERROR_REGISTRO);
-		} else {
-			List<Proveedor> list = new ArrayList<>();
-			list.add(ProveedorService.buscarPorId(objSalida.getId_prov()).get());
-			System.out.print("ID NUEVO PROVEEDOR : " + obj.getId_prov());
-			map.put(DEFAULT_LIST_KEY, list);
-			map.put(DEFAULT_MESSAGE_KEY, MSG_REGISTRO_OK);
+				if (objSalida == null) {
+					System.out.println("ERROR AL REGISTRAR PROVEEDOR");
+					map.put(DEFAULT_MESSAGE_ERROR_KEY, MSG_ERROR_REGISTRO);
+				} else {
+					List<Proveedor> list = new ArrayList<>();
+					list.add(ProveedorService.buscarPorId(objSalida.getId_prov()).get());
+					System.out.print("ID NUEVO PROVEEDOR : " + obj.getId_prov());
+					map.put(DEFAULT_LIST_KEY, list);
+					map.put(DEFAULT_MESSAGE_KEY, MSG_REGISTRO_OK);
+				}
+			} else {
+				obj.setId_prov(cod);
+				obj.getRegistros().setActivo(AppSettings.ACTIVO);
+				obj.getRegistros().setModification_date(new Date());
+				Proveedor objSalida = ProveedorService.insertar(obj);
+				if (objSalida == null) {
+					map.put(DEFAULT_MESSAGE_ERROR_KEY, MSG_ERROR_REGISTRO);
+				} else {
+					List<Proveedor> list = new ArrayList<>();
+					list.add(ProveedorService.buscarPorId(objSalida.getId_prov()).get());
+					System.out.print("ID PROVEEDOR ACTUALIZADO: " + obj.getId_prov());
+					map.put(DEFAULT_LIST_KEY, list);
+					map.put(DEFAULT_MESSAGE_KEY, MSG_ACTUALIZACION_OK);
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			map.put("mensaje", "Error en el Registro");
+			e.printStackTrace();
 		}
+
 		return map;
 	}
+/*
 
 	@PutMapping("/actualizarProveedor")
 	@ResponseBody
 	public Map<?, ?> updateProveedor(Proveedor obj) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		/*if (ValidacionesUtil.esVacioInt(obj.getCodigo_Proveedor())) {
+		*/
+/*if (ValidacionesUtil.esVacioInt(obj.getCodigo_Proveedor())) {
 			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Campo Codigo no puede ser CERO");
 			return map;
 		}
@@ -127,14 +151,17 @@ public class ProveedorController {
 		if (ValidacionesUtil.esVacio(obj.getTipo().getDescripcion())) {
 			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Escoge un tipo de Proveedor");
 			return map;
-		}*/
+		}*//*
 
-		/*DataCatalogo dataCatalogo= dataCatalogoService.getFindById(obj.getData_catalogo().getIdDataCatalogo());
+
+		*/
+/*DataCatalogo dataCatalogo= dataCatalogoService.getFindById(obj.getData_catalogo().getIdDataCatalogo());
 		if (dataCatalogo == null) {
 			map.put(DEFAULT_MESSAGE_ERROR_KEY, MSG_TIPO_ERROR);
 			return map;
 		}
-		obj.setData_catalogo(dataCatalogo);*/
+		obj.setData_catalogo(dataCatalogo);*//*
+
 		obj.getRegistros().setActivo(AppSettings.ACTIVO);
 		obj.getRegistros().setModification_date(new Date());
 		Proveedor objSalida = ProveedorService.actualizar(obj);
@@ -148,13 +175,14 @@ public class ProveedorController {
 		}
 		return map;
 	}
+*/
 
 	@PostMapping("/cambiarEstadoProveedorCrud")
 	@ResponseBody
-	public Map<?, ?> changeEstadoProveedorCrud(Long id_prov) {
+	public Map<?, ?> changeEstadoProveedorCrud(Long id_proveedor) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		//Buscar Sala Por ID
-		Proveedor objProveedor = ProveedorService.buscarPorId(id_prov).get(); //Update new data
+		Proveedor objProveedor = ProveedorService.buscarPorId(id_proveedor).get(); //Update new data
 		objProveedor.getRegistros().setModification_date(new Date());
 		objProveedor.getRegistros().setActivo(objProveedor.getRegistros().getActivo() == AppSettings.ACTIVO ? AppSettings.INACTIVO : AppSettings.ACTIVO);
 		Proveedor objSalida =  ProveedorService.actualizar(objProveedor);

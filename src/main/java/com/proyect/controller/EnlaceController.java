@@ -1,24 +1,27 @@
 package com.proyect.controller;
 
+import com.proyect.service.CatalogoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class EnlaceController {
 
-	/*@Autowired
+	@Autowired
 	private CatalogoService catalogoService;
 
 	@GetMapping("/")
 	public String verProducto(Model model) {
 		//crear atributos
 		model.addAttribute("catalogos", catalogoService.findAll());
-		return "productos";
-	}*/
+		return "producto";
+	}
 
 	@GetMapping("/proveedor")
 	public String verProveedor() {
-		return "proveedores";
+		return "proveedor";
 	}
 
 	/*@GetMapping("/")

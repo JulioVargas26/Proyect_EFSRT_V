@@ -12,12 +12,12 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = "idrol")
+@EqualsAndHashCode(of = "id_rol")
 public class Rol {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idrol;
+    private Long id_rol;
     private String descripcion;
 
     @JsonBackReference

@@ -7,7 +7,7 @@
     import jakarta.persistence.*;
     import lombok.*;
 
-@Table(name = "producto")
+@Table(name = "productos")
 @Entity
 @Setter
 @Getter
@@ -29,8 +29,8 @@ public class Producto {
 
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@ManyToOne (fetch = FetchType.LAZY)
-	@JoinColumn(name="idDataCatalogo")
-	private DataCatalogo dataCatalogo;
+	@JoinColumn(name="id_data_catalogo")
+	private DataCatalogo data_catalogo;
 
 	@Embedded
 	private Registros registros = new Registros();
@@ -43,7 +43,7 @@ public class Producto {
 		this.sto_prod = dtoProductoSave.sto_prod();
 		this.tip_docu = dtoProductoSave.tip_docu();
 		this.doc_prod = dtoProductoSave.doc_prod();
-		this.dataCatalogo = dataCatalogo;
+		this.data_catalogo = dataCatalogo;
 	}
 
 	public Producto updateData(DTOProductoUpdate dtoProductoUpdate) {
@@ -68,8 +68,8 @@ public class Producto {
 		if (dtoProductoUpdate.doc_prod() != null) {
 			this.doc_prod = dtoProductoUpdate.doc_prod();
 		}
-		if (dtoProductoUpdate.dataCatalogo() != null) {
-			this.dataCatalogo = dtoProductoUpdate.dataCatalogo();
+		if (dtoProductoUpdate.data_catalogo() != null) {
+			this.data_catalogo = dtoProductoUpdate.data_catalogo();
 		}
 		return this;
 	}

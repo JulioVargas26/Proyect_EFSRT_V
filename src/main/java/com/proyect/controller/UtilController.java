@@ -15,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
@@ -30,22 +29,12 @@ public class UtilController {
 	@Autowired
 	private ProveedorService proveedorService;
 
-	@Autowired
-	private CatalogoService catalogoService;
-
-	@GetMapping("/")
-	public String verProducto(Model model) {
-		//crear atributos
-		model.addAttribute("catalogos", catalogoService.findAll());
-		return "index";
-	}
-
 	/*@RequestMapping("/")
 	public String login() {
 		return "login";
 	}*/
 
-	@RequestMapping("/productos")
+	/*@RequestMapping("/productos")
 	public String index(Model model) {
 
 		model.addAttribute("catalogos", catalogoService.findAll());
@@ -54,7 +43,7 @@ public class UtilController {
 
 		System.out.println(productoLists);
 		return "index";
-	}
+	}*/
 
 	@GetMapping("/listarProductoActivoTrue")
 	@ResponseBody
@@ -73,8 +62,6 @@ public class UtilController {
 	public List<Proveedor> listarProveedor() {
 		return proveedorService.listarRegistrosActivoTrue();
 	}
-
-
 
 	@GetMapping("/listaTipoContacto")
 	@ResponseBody

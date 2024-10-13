@@ -15,7 +15,7 @@ public record DTOProductoUpdate(@NotNull Long id_prod,
                                 String tip_docu,
                                 String doc_prod,
 
-                                DataCatalogo dataCatalogo,
+                                DataCatalogo data_catalogo,
                                 Boolean activo,
                                 LocalDateTime modification_date) {
 }

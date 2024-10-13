@@ -7,20 +7,20 @@ import lombok.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "dataCatalogo")
+@Table(name = "data_catalogo")
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = "idDataCatalogo")
+@EqualsAndHashCode(of = "id_data_catalogo")
 public class DataCatalogo {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idDataCatalogo;
+	private Long id_data_catalogo;
 	private String descripcion;
 
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idCatalogo")
+	@JoinColumn(name = "id_catalogo")
 	private Catalogo catalogo;
 	
 }

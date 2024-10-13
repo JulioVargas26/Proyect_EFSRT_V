@@ -9,12 +9,12 @@ import lombok.*;
 @Table(name = "catalogo")
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = "idCatalogo")
+@EqualsAndHashCode(of = "id_catalogo")
 public class Catalogo {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idCatalogo;
+	private Long id_catalogo;
 	private String descripcion;
 
 }

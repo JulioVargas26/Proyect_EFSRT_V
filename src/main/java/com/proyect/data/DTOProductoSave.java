@@ -22,5 +22,5 @@ public record DTOProductoSave(@NotBlank
                               String doc_prod,
                               @NotNull
                               @Valid
-                              Long dataCatalogo) {
+                              Long data_catalogo) {
 }
