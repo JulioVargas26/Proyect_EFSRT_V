@@ -17,9 +17,33 @@ let idDataCatalogo = -1;
             event.preventDefault()
 
             form.classList.add('was-validated')
-        }, false)
-    })
-})()
+        }, false);
+
+        // Find the button with the ID "id_btn_registra"
+        const btn = form.querySelector('#id_btn_registra');
+        // Add a click event listener to the button
+        if (btn) {
+            btn.addEventListener('click', event => {
+                // Prevent the default behavior of the button (submitting the form)
+                event.preventDefault();
+
+                // Trigger the form's submit event manually
+                form.dispatchEvent(new Event('submit'));
+            });
+        }
+
+        // Find the button with the data-bs-dismiss="modal" attribute
+        const dismissBtn = form.querySelector('[data-bs-dismiss="modal"]');
+        // Add a click event listener to the button
+        if (dismissBtn) {
+            dismissBtn.addEventListener('click', event => {
+                // Clear the form fields
+                form.reset();
+            });
+        }
+
+    });
+})();
 
 $(document).ready(function () {
 
@@ -223,11 +247,11 @@ function limpiarFormularioRegistro() {
 }
 
 $("#id_btn_registra").click(function () {
-//
-    //$('#id_form_registra').bootstrapValidator('validate');
-    //var validator = $('#id_form_registra').data('bootstrapValidator');
-    //validator.validate();
-    //if (validator.isValid()) {
+
+    /*$('#id_form_producto').bootstrapValidator('validate');
+    var validator = $('#id_form_producto').data('bootstrapValidator');
+    validator.validate();
+    if (validator.isValid()) {*/
     $.ajax({
         type: "POST",
         url: "insertProducto",
@@ -280,7 +304,7 @@ $("#id_btn_registra").click(function () {
             });
         }
     });
-    //}
+   /* }*/
 });
 
 $("#id_btn_actualiza").click(function () {
@@ -614,92 +638,142 @@ function accionEliminar(id_producto) {
     });
 }
 
-/*
 
-$('#id_form_actualiza')
-    .
+$('#id_form_producto').
     bootstrapValidator(
     {
-        message : 'El valor no es valido',
-        feedbackIcons : {
-        valid : 'glyphicon glyphicon-ok',
-        invalid : 'glyphicon glyphicon-remove',
-        validating : 'glyphicon glyphicon-refresh'
-    },
-        fields : {
-        numeroSala : {
-        selector : '#id_act_numeroSala',
-        validators : {
-        notEmpty : {
-        message : 'Campo Obligatorio'
-    },
-        regexp : {
-        regexp : '^[a-zA-Z]{1}[0-9]{3}$',
-        message : 'Ejm: B393, a989, ... '
+        message: 'El valor no es valido',
+       /* feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },*/
+        fields: {
+            cod_prod: {
+                selector: '#id_reg_cod_prod',
+                validators: {
+                    notEmpty: {
+                        message: 'Campo Obligatorio'
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-Z]{1}[0-9]{8}$/,
+                        message: 'Ingrese un código de producto válido (una letra seguida de tres números, por ejemplo: B393, a989)'
+                    }
     }
+            },
+            sto_prod: {
+                selector: '#id_reg_sto_prod',
+                validators: {
+                    notEmpty: {
+                        message: 'Campo obligatorio'
+                    },
+                    integer: {
+                        message: 'El valor debe ser un número entero'
+                    },
+                    greaterThanOrEqualTo: { // Asegurar que el stock sea mayor o igual a cero
+                        message: 'El stock no puede ser negativo',
+                        value: 0
+                    }
     }
-    },
-        numAlumnos : {
-        selector : '#id_act_nroAlumnos',
-        validators : {
-        notEmpty : {
-        message : 'Campo obligatorio'
-    },
-        integer : {
-        message : 'El valor no es v&aacute;lido'
-    },
-        between : {
-        message : 'Cantidad de alumnos permitidos 1(min.) a 99(m&aacute;x.)',
-        min : 1,
-        max : 99
-    }
-    }
-    },
-        piso : {
-        selector : '#id_act_piso',
-        validators : {
-        notEmpty : {
-        message : 'Campo Obligatorio'
-    },
-        between : {
-        message : 'Pisos permitidos 1(min.) a 99 (m&aacute;x.)',
-        min : 1,
-        max : 99
-    },
-        integer : {
-        message : 'El valor no es v&aacute;lido'
-    },
-    }
-    },
-        recursos : {
-        selector : '#id_act_recursos',
-        validators : {
-        notEmpty : {
-        message : 'Campo Obligatorio'
-    },
-        stringLength : {
-        max : 45,
-        min : 2,
-        message : 'Caracteres permitidos 2(min.) a 45 (max.)'
-    }
-    }
-    },
-        sede : {
-        selector : '#id_act_sede',
-        validators : {
-        notEmpty : {
-        message : 'Campo Obligatorio'
-    }
-    }
-    },
-        tipoSala : {
-        selector : '#id_act_tipoSala',
-        validators : {
-        notEmpty : {
-        message : 'Campo Obligatorio'
-    }
-    }
-    }
-    }
-    })
-;*/
+            },
+            tipo_moneda: {
+                selector: '#id_reg_tipo_moneda', // Ajusta el selector según tu HTML
+                validators: {
+                    notEmpty: {
+                        message: 'Debe seleccionar un tipo de moneda'
+                    }
+                }
+            },
+            pre_prod: {
+                selector: '#id_reg_pre_prod',
+                validators: {
+                    notEmpty: {
+                        message: 'El precio es obligatorio'
+                    },
+                    numeric: {
+                        message: 'El valor debe ser numérico'
+                    },
+                    decimal: {
+                        message: 'El valor debe ser un número decimal',
+                        decimalSeparator: ',', // Ajusta según tu configuración regional
+                        thousandsSeparator: '.' // Ajusta según tu configuración regional
+                    },
+                    between: {
+                        message: 'El precio debe estar entre $0.01 y $9999.99', // Ajusta el rango según tus necesidades
+                        min: 0.01,
+                        max: 9999.99
+                    },
+                    greaterThan: {
+                        message: 'El precio debe ser mayor a 0',
+                        inclusive: false,
+                        value: 0
+                    },
+                }
+            },
+            tipo_documento: {
+                selector: '#id_reg_tipo_documento', // Ajusta el selector según tu HTML
+                validators: {
+                    notEmpty: {
+                        message: 'Debe seleccionar un tipo de documento'
+                    }
+                }
+            },
+            /*nro_doc_prod: {
+                selector: '#id_reg_nro_doc_prod',
+                validators: {
+                    notEmpty: {
+                        message: 'El número de {tipo_documento} es obligatorio'
+                    },
+                    stringLength: {
+                        min: 5,
+                        max: 20,
+                        message: 'El número de documento debe tener entre 5 y 20 caracteres'
+                    },
+                    regexp: {
+                        regexp: /^[A-Z0-9]{1}[0-9]{9}$/,
+                        message: 'El número de documento solo puede contener letras mayúsculas y números'
+                    }
+                    regexp: {
+                        regexp: /^[a-zA-Z]{1}[0-9]{3}$/,
+                        message: 'Ingrese un código de producto válido (una letra seguida de tres números, por ejemplo: B393, a989)'
+                    }
+                }
+            }*/
+            id_reg_nro_doc_prod: {
+                selector: '#id_reg_nro_doc_prod',
+                validators: {
+                    notEmpty: {
+                        message: 'Campo obligatorio'
+                    },
+                    stringLength: {
+                        min: 5,
+                        max: 8,
+                        message: 'El número de documento debe tener entre 5 y 8 caracteres'
+                    },
+                    regexp: {
+                        regexp: /^[0-9]+(-[0-9]+)?$/, // Permite números, guiones y combinaciones
+                        message: 'El formato del documento no es válido. Ejemplos: 123, 123-456'
+                    }
+                }
+            },
+            des_prod: {
+                selector: '#id_act_des_prod', // Ajusta el selector al ID correcto
+                validators: {
+                    notEmpty: {
+                        message: 'La descripción es obligatoria'
+                    },
+                    stringLength: {
+                        min: 5, // Mínimo 10 caracteres
+                        max: 255, // Máximo 255 caracteres
+                        message: 'La descripción debe tener entre 5 y 255 caracteres'
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚüÜ.,\s]+$/, // Permite letras, números, algunos signos de puntuación y espacios
+                        message: 'Solo se permiten letras, números y algunos signos de puntuación'
+                    }
+                }
+            }
+
+        }
+    });
+

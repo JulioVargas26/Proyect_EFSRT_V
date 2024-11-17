@@ -17,6 +17,10 @@
 
 	<script type="text/javascript" src="js/bootstrapValidator.js"></script>
 	<script type="text/javascript" src="js/global.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>  
+
+
 </head>
 <body>
 <!--crear fragmento "cabecera" -->
@@ -81,9 +85,7 @@
 
 				<!-- Modal body -->
 				<div class="modal-body">
-					<form method="POST" id="id_form_producto"
-						  th:action="@{/insertProducto}">
-						<!--<form  th:action="@{~/insertProducto}" th:method="${obj.id_prod} != null ? PUT : POST" modelAttribute="obj" th:object="${obj}">-->
+					<form method="POST" id="id_form_producto" class="needs-validation" novalidate>
 						<input type="hidden" id="id_producto_ID" name="cod_producto" value="0">
 						<div id="accordion_reg_prod">
 
@@ -96,16 +98,23 @@
 								<div  class="collapse show" >
 									<div class="card-body">
 
-										<div class="row form-group mb-3 ">
+										<div class="row form-group mb-3">
 											<div class="col-sm-6">
 												<label class="col-lg-4 form-label"
 													   for="id_reg_cod_prod">Codigo </label>
 												<div class="input-group col-lg-8 ">
 														<span class="input-group-text"><i
-																class="bi bi-boxes"></i></span><input
+																class="bi bi-boxes"></i></span>
+													<input
 														class="form-control input-sm" type="text"
 														id="id_reg_cod_prod" name="cod_prod"
-														autocomplete="off" placeholder="Ingrese el codigo">
+														autocomplete="off" placeholder="Ingrese el codigo" required>
+													<div class="valid-feedback">
+														Correcto
+													</div>
+													<div class="invalid-feedback">
+														Campo Obligatorio
+													</div>
 												</div>
 											</div>
 											<div class="col-sm-6 ">
@@ -116,7 +125,14 @@
 																class="bi bi-boxes"></i></span><input
 														class="form-control input-sm" type="number" step="any"
 														id="id_reg_sto_prod" name="sto_prod" autocomplete="off"
-														placeholder="Ingrese el Stock">
+														placeholder="Ingrese el Stock" required>
+
+													<div class="valid-feedback">
+														Correcto
+													</div>
+													<div class="invalid-feedback">
+														Campo Obligatorio
+														</div>
 												</div>
 											</div>
 
@@ -131,10 +147,15 @@
                                                 <span class="input-group-text"><i
 														class="bi bi-box2-heart-fill"></i></span>
 													<select id="id_reg_tipo_moneda" name="tip_mone"
-															class="form-select">
+															class="form-select" required>
 														<option value="">[Seleccione]</option>
 													</select>
-
+													<div class="valid-feedback">
+														Correcto
+													</div>
+													<div class="invalid-feedback">
+														Por favor seleccione un tipo de moneda.
+													</div>
 												</div>
 											</div>
 											<div class="col-sm-6 ">
@@ -144,7 +165,14 @@
 														<span class="input-group-text"><i class="bi bi-currency-dollar"></i></span><input
 														class="form-control input-sm" type="number" step="any"
 														id="id_reg_pre_prod" name="pre_prod" autocomplete="off"
-														placeholder="Ingrese el Precio">
+														placeholder="Ingrese el Precio" required>
+													<div class="valid-feedback">
+														Correcto
+													</div>
+													<div class="invalid-feedback">
+														Campo Obligatorio
+													</div>
+
 												</div>
 											</div>
 										</div>
@@ -156,10 +184,15 @@
                                                 <span class="input-group-text"><i
 														class="bi bi-box2-heart-fill"></i></span>
 													<select id="id_reg_tipo_documento" name="tip_docu"
-															class="form-select">
+															class="form-select" required>
 														<option value="">[Seleccione]</option>
 													</select>
-
+													<div class="valid-feedback">
+														Correcto
+													</div>
+													<div class="invalid-feedback">
+														Por favor seleccione un tipo de documento.
+													</div>
 												</div>
 											</div>
 											<div class="col-sm-6">
@@ -169,7 +202,13 @@
 														<span class="input-group-text"><i class="bi bi-file-earmark"></i></span><input
 														class="form-control input-sm" type="text"
 														id="id_reg_nro_doc_prod" name="doc_prod"
-														autocomplete="off" placeholder="Ingrese el Nro de Documento">
+														autocomplete="off" placeholder="Ingrese el Nro de Documento" required>
+													<div class="valid-feedback">
+														Correcto
+													</div>
+													<div class="invalid-feedback">
+														Campo Obligatorio
+														</div>
 												</div>
 											</div>
 										</div>
@@ -182,7 +221,13 @@
 															class="bi bi-boxes"></i></span><textarea
 													class="form-control input-sm" type="text"
 													id="id_reg_des_prod" name="des_prod" autocomplete="off"
-													placeholder="Ingrese la Descripcion del Producto"></textarea>
+													placeholder="Ingrese la Descripcion del Producto" required></textarea>
+												<div class="valid-feedback">
+													Correcto
+												</div>
+												<div class="invalid-feedback">
+													Campo Obligatorio
+												</div>
 											</div>
 										</div>
 
@@ -192,18 +237,31 @@
 												</label>
 												<div class="input-group col-lg-8">
 													<span class="input-group-text"><i class="bi bi-box2-heart-fill"></i></span>
-													<select id="id_reg_catalogo" name="catalogo" class="form-select">
-														<option value=" ">[Seleccione Tipo]</option>
+													<select id="id_reg_catalogo" name="catalogo" class="form-select" required>
+														<option value="">[Seleccione Tipo]</option>
 														<option th:each="x:${catalogos}" th:utext="${x.descripcion}" th:value="${x.id_catalogo}" />
 													</select>
+													<div class="valid-feedback">
+														Correcto
+													</div>
+													<div class="invalid-feedback">
+														Por favor seleccione un tipo de producto.
+													</div>
 												</div>
 											</div>
 											<div class="col-sm-6">
 												<label class="col-lg-4 form-label" for="id_reg_data_catalogo">Sub Tipo </label>
 												<div class="input-group col-lg-8">
 													<span class="input-group-text"><i class="bi bi-box2-heart-fill"></i></span>
-													<select id="id_reg_data_catalogo" name="data_catalogo" class="form-select">
+													<select id="id_reg_data_catalogo" name="data_catalogo" class="form-select" required>
+														<option data-popper-placement="[Seleccione Tipo]"></option>
 													</select>
+													<div class="valid-feedback">
+														Correcto
+													</div>
+													<div class="invalid-feedback">
+														Por favor seleccione un sub tipo de producto.
+													</div>
 												</div>
 											</div>
 										</div>
@@ -251,9 +309,7 @@
 
 				<!-- Modal body -->
 				<div class="modal-body">
-					<form method="POST" id="id_form_proveedor"
-						  th:action="@{/insertProveedor}">
-						<!--<form  th:action="@{~/insertProducto}" th:method="${obj.id_prod} != null ? PUT : POST" modelAttribute="obj" th:object="${obj}">-->
+					<form method="POST" id="id_form_proveedor" class="needs-validation" novalidate>
 						<input type="hidden" id="id_proveedor_ID" name="cod_proveedor" value="0">
 						<div id="accordion_reg_prov">
 
@@ -273,11 +329,16 @@
 													   for="id_buscar_api_numero_documento"> Numero RUC </label>
 												<div class="input-group col-lg-8 ">
 														<input
-														class="form-control input-sm" type="text" maxlength="11"
+														class="form-control input-sm" type="text" min="11"
 														id="id_buscar_api_numero_documento" name="ruc"
-														autocomplete="off" placeholder="ingrese el numero de documento">
+														autocomplete="off" placeholder="ingrese el numero de documento" required>
 													<span class="input-group-text" type="button" id="btnConsultaSunat"><i
 														class="bi bi-search"></i></span>
+
+													<!--<div class="valid-feedback">
+														<p id="txaCount"></p>
+													</div>-->
+
 												</div>
 												<h6 id="id_msg_error_api_dni" style="display: none;color:red;">ERROR AL
 													CONSULTAR EL DOCUMENTO
@@ -297,7 +358,16 @@
 																class="bi bi-boxes"></i></span><input
 														class="form-control input-sm" type="text"
 														id="id_reg_razon_social" name="razon_social" autocomplete="off"
-														placeholder="Razon Social">
+														placeholder="Razon Social" required>
+													<!--<div class="valid-feedback">
+															<p id="txaCount2"></p>
+														</div>-->
+													<!--<div class="valid-feedback">
+														Correcto
+													</div>
+													<div class="invalid-feedback">
+														Campo Obligatorio
+													</div>-->
 												</div>
 											</div>
 
@@ -312,7 +382,16 @@
 												<input
 														class="form-control input-sm" type="text"
 														id="id_reg_direccion_fiscal" name="direccion_fiscal"
-														autocomplete="off" placeholder="Direccion Fiscal">
+														autocomplete="off" placeholder="Direccion Fiscal" required>
+												<!--<div class="valid-feedback">
+													<p id="txaCount3"></p>
+												</div>-->
+												<!--	<div class="valid-feedback">
+													Correcto
+												</div>
+												<div class="invalid-feedback">
+													Campo Obligatorio
+												</div>-->
 											</div>
 										</div>
 
@@ -322,11 +401,28 @@
 												<label class="col-lg-4 control-label"
 													   for="id_reg_condicion_ruc">Condicion </label>
 												<div class="input-group col-lg-8">
-                                                <span class="input-group-text"><i
-														class="bi bi-boxes"></i></span><input
-														class="form-control input-sm" type="text"
-														id="id_reg_condicion_ruc" name="condicion_ruc"
-														autocomplete="off" placeholder="Condicion">
+
+													<span class="input-group-text"><i
+															class="bi bi-boxes"></i></span>
+													<input
+															class="form-control input-sm" type="text"
+															id="id_reg_condicion_ruc" name="condicion_ruc"
+															autocomplete="off" placeholder="Condicion RUC" required>
+
+													<!--
+													<span class="input-group-text"><i
+															class="bi bi-box2-heart-fill"></i></span>
+													<select id="id_reg_condicion_ruc" name="condicion_ruc"
+															class="form-select" required>
+														<option value="">[Seleccione]</option>
+
+													</select>-->
+													<!--<div class="valid-feedback">
+														<p id="txaCount4"></p>
+													</div>-->
+													<!--<div class="invalid-feedback">
+														Campo Obligatorio
+													</div>-->
 
 												</div>
 											</div>
@@ -334,11 +430,23 @@
 												<label class="col-lg-4 control-label"
 													   for="id_reg_estado_ruc">Estado </label>
 												<div class="input-group col-lg-8 ">
-														<span class="input-group-text"><i
-																class="bi bi-boxes"></i></span><input
-														class="form-control input-sm" type="text"
-														id="id_reg_estado_ruc" name="estado_ruc" autocomplete="off"
-														placeholder="Estado">
+													<span class="input-group-text"><i
+															class="bi bi-boxes"></i></span>
+													<input
+															class="form-control input-sm" type="text"
+															id="id_reg_estado_ruc" name="estado_ruc"
+															autocomplete="off" placeholder="Estado RUC" required>
+
+													<!--<span class="input-group-text"><i
+														class="bi bi-box2-heart-fill"></i></span>
+													<select id="id_reg_estado_ruc" name="estado_ruc"
+															class="form-select" required>
+														<option value="">[Seleccione]</option>
+
+													</select>-->
+													<!--<div class="valid-feedback">
+														<p id="txaCount5"></p>
+													</div>-->
 												</div>
 											</div>
 										</div>
@@ -351,9 +459,13 @@
                                                 <span class="input-group-text"><i
 														class="bi bi-box2-heart-fill"></i></span>
 													<select id="id_reg_tipo_contacto" name="tipo_contacto"
-															class="form-select">
+															class="form-select" required>
 														<option value="">[Seleccione]</option>
+
 													</select>
+													<!--<div class="invalid-feedback">
+														Por favor seleccione un tipo de contacto.
+														</div>-->
 												</div>
 											</div>
 											<div class="col-sm-6">
@@ -364,7 +476,10 @@
 																class="bi bi-boxes"></i></span><input
 														class="form-control input-sm" type="text"
 														id="id_reg_nombre_contacto" name="nombre_contacto" autocomplete="off"
-														placeholder="Ingrese Nombre Contacto">
+														placeholder="Ingrese Nombre Contacto" required>
+													<!--<div class="valid-feedback">
+														<p id="txaCount6"></p>
+													</div>-->
 												</div>
 											</div>
 										</div>
@@ -378,7 +493,10 @@
 															class="bi bi-boxes"></i></span><input
 														class="form-control input-sm" type="tel"
 														id="id_reg_telefono_prov" name="telefono_contacto"
-														autocomplete="off" placeholder="Ingrese Telefono">
+														autocomplete="off" placeholder="Ingrese Telefono" required>
+													<!--<div class="valid-feedback">
+														<p id="txaCount7"></p>
+													</div>-->
 												</div>
 											</div>
 											<div class="col-sm-6">
@@ -387,9 +505,12 @@
 												<div class="input-group col-lg-8 ">
 														<span class="input-group-text"><i
 																class="bi bi-boxes"></i></span><input
-														class="form-control input-sm" type="text"
+														class="form-control input-sm" type="email"
 														id="id_reg_email_prov" name="email_contacto" autocomplete="off"
-														placeholder="Ingrese Correo Electronico">
+														placeholder="Ingrese Correo Electronico" required>
+													<!--<div class="valid-feedback">
+														<p id="txaCount8"></p>
+													</div>-->
 												</div>
 											</div>
 										</div>

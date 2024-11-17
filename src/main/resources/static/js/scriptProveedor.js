@@ -1,7 +1,6 @@
-let idDataCatalogo = -1;
-
+// Cargar el script una vez que el documento esté completamente cargado
 <!-- Agregar aqu� -->
-(() => {
+/*(() => {
     'use strict'
 
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
@@ -16,10 +15,81 @@ let idDataCatalogo = -1;
             // Prevenir la recarga de la página
             event.preventDefault()
 
-            form.classList.add('was-validated')
-        }, false)
-    })
-})()
+            form.classList.add('was-validated');
+
+        // Find the button with the ID "id_btn_registra"
+        const btn = form.querySelector('#id_btn_reg_prov');
+
+        // Add a click event listener to the button
+        if (btn) {
+            btn.addEventListener('click', event => {
+                // Prevent the default behavior of the button (submitting the form)
+                event.preventDefault();
+
+                // Trigger the form's submit event manually
+                form.dispatchEvent(new Event('submit'));
+            });
+        }
+        // Find the button with the data-bs-dismiss="modal" attribute
+        const dismissBtn = form.querySelector('[data-bs-dismiss="modal"]');
+
+        // Add a click event listener to the button
+        if (dismissBtn) {
+            dismissBtn.addEventListener('click', event => {
+                // Clear the form fields
+                form.reset();
+
+                // Clear validation styles
+                form.classList.remove('was-validated');
+            });
+        }
+    }, false);
+});
+})();*/
+(() => {
+    'use strict';
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.needs-validation');
+
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+
+            form.classList.add('was-validated');
+        }, false);
+
+        // Find the button with the ID "id_btn_registra"
+        const btn = form.querySelector('#id_btn_reg_prov');
+
+        // Add a click event listener to the button
+        if (btn) {
+            btn.addEventListener('click', event => {
+                // Prevent the default behavior of the button (submitting the form)
+                event.preventDefault();
+
+                // Trigger the form's submit event manually
+                form.dispatchEvent(new Event('submit'));
+            });
+        }
+
+        // Find the button with the data-bs-dismiss="modal" attribute
+        const closeButton = form.querySelector('[data-bs-dismiss="modal"]');
+
+        // Add a click event listener to the close button
+        if (closeButton) {
+            closeButton.addEventListener('click', () => {
+                // Reset the form to its initial state
+                form.reset();
+                form.classList.remove('was-validated');
+            });
+        }
+    });
+})();
 
 $(document).ready(function () {
 
@@ -27,7 +97,7 @@ $(document).ready(function () {
     buscarPorFiltrosGestionProductos();
 
     // Realiza la solicitud para obtener la lista de monedas
-    $.getJSON("listaTipoContacto", {})
+   /* $.getJSON("listaTipoContacto", {})
         .done(function (data) {
             // Limpiar el select antes de agregar las nuevas opciones
             $("#id_act_tipo_contacto").empty();
@@ -50,7 +120,7 @@ $(document).ready(function () {
             console.log("Fallo en la solicitud: " + err);
             // Puedes agregar aquí tu propia lógica para mostrar un mensaje de error al usuario
         });
-
+*/
     //registrar lista tipo moneda
     $.getJSON("listaTipoContacto", {}, function (data) {
         $.each(data, function (index, item) {
@@ -99,6 +169,22 @@ $("#btnConsultaSunat").click(function () {
             $("#id_reg_condicion_ruc").val(jsonData.condicion).prop('readonly', true);
             $("#id_reg_estado_ruc").val(jsonData.estado).prop('readonly', true);
 
+
+           /* // Create an option element with the selected value
+            const condicion = new Option(
+                jsonData.condicion, jsonData.condicion,
+                true, true);
+            // Append the option to the select element
+            $("#id_reg_condicion_ruc").append(condicion);
+
+            // Create an option element with the selected value
+            const estado = new Option(
+                jsonData.estado, jsonData.estado,
+                true, true);
+            // Append the option to the select element
+            $("#id_reg_estado_ruc").append(estado);
+*/
+
             const Toast = Swal.mixin({
                 toast: true,
                 position: "top-end",
@@ -143,7 +229,7 @@ function limpiarFormularioRegistro() {
     //asignar el valor de "0" a la caja con ID "idCodigo"
     $("#id_proveedor_ID").val(0);
     //resetear validación
-    // $("#idRegistra").data("bootstrapValidator").resetForm(true);
+    $("#id_form_proveedor").data("bootstrapValidator").resetForm(true);
 
     $("#id_buscar_api_numero_documento").val("")
     $("#id_reg_razon_social").val("")
@@ -154,17 +240,14 @@ function limpiarFormularioRegistro() {
     $("#id_reg_nombre_contacto").val("")
     $("#id_reg_telefono_prov").val("")
     $('#id_reg_email_prov').val("")
-
-
-
 }
 
 $("#id_btn_reg_prov").click(function () {
-//
-    //$('#id_form_registra').bootstrapValidator('validate');
-    //var validator = $('#id_form_registra').data('bootstrapValidator');
-    //validator.validate();
-    //if (validator.isValid()) {
+
+   $('#id_form_proveedor').bootstrapValidator('validate');
+    var validator = $('#id_form_proveedor').data('bootstrapValidator');
+    validator.validate();
+    if (validator.isValid()) {
     $.ajax({
         type: "POST",
         url: "insertProveedor",
@@ -206,7 +289,7 @@ $("#id_btn_reg_prov").click(function () {
                 limpiarFormularioRegistro();
                 agregarGrilla(data.LIST);
                 window.location.reload();
-                //validator.resetForm();
+                validator.resetForm();
             }
         },
         error: function () {
@@ -217,9 +300,10 @@ $("#id_btn_reg_prov").click(function () {
             });
         }
     });
-    //}
+   }
 });
 
+/*
 $("#id_btn_act_prov").click(function () {
     //	var validator = $('#id_form_actualiza').data('bootstrapValidator');
     //	validator.validate();
@@ -278,6 +362,7 @@ $("#id_btn_act_prov").click(function () {
     });
     //}
 });
+*/
 
 function listarProductos() {
     $.getJSON("listarProveedorActivoTrue", {
@@ -457,7 +542,7 @@ function agregarGrilla(lista) {
 
 function editar(id_prov, ruc, razon_social, direccion_fiscal, condicion_ruc,
                 estado_ruc, tipo_contacto, nombre_contacto, telefono_contacto, email_contacto) {
-    $('#id_reg_id_prov').val(id_prov).prop('readonly', true);
+    $('#id_proveedor_ID').val(id_prov);
     $('#id_buscar_api_numero_documento').val(ruc).prop('readonly', true);
     $('#id_reg_razon_social').val(razon_social).prop('readonly', true);
     $('#id_reg_direccion_fiscal').val(direccion_fiscal).prop('readonly', true);
@@ -488,6 +573,141 @@ function accionEliminar(id_proveedor) {
         }
     });
 }
+
+// Validación de formulario de registro de proveedor
+
+$('#id_form_proveedor').bootstrapValidator({
+    message: 'El valor no es válido',
+    /*feedbackIcons: {
+        valid: 'glyphicon glyphicon-ok',
+        invalid: 'glyphicon glyphicon-remove',
+        validating: 'glyphicon glyphicon-refresh'
+    },*/
+    fields: {
+        ruc: {
+            selector: '#id_buscar_api_numero_documento',
+            validators: {
+                notEmpty: {
+                    message: 'Campo Obligatorio'
+                },
+                regexp: {
+                    regexp: /^\d{11}$/,
+                    message: 'El RUC debe tener 11 dígitos'
+                }
+            }
+        },
+        razon_social: {
+            selector: '#id_reg_razon_social',
+            validators: {
+                notEmpty: {
+                    message: 'Campo obligatorio',
+                },
+                stringLength: {
+                    min: 3,
+                    message: 'La razón social debe tener entre 3 y 100 caracteres'
+                },
+                regexp: {
+                    regexp: /^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ\-\s]+$/,
+                    message: 'Solo se permiten letras, números y espacios'
+                }
+            }
+        },
+        direccion_fiscal: {
+            selector: '#id_reg_direccion_fiscal',
+            validators: {
+                notEmpty: {
+                    message: 'Campo Obligatorio'
+                },
+                stringLength: {
+                    min: 10,
+                    message: 'La dirección debe tener entre 10 y 100 caracteres'
+                }
+            }
+        },
+        condicion_ruc: {
+            selector: '#id_reg_condicion_ruc',
+            validators: {
+                notEmpty: {
+                    message: 'Por favor, seleccione una condición para el RUC'
+                },
+                /*in: {
+                    param: ['activo', 'suspendido', 'cancelado', 'baja', 'otro'],
+                    message: 'La condición seleccionada "{value}" no es válida. Por favor, seleccione una opción de la lista.'
+                }*/
+            }
+        },
+        estado_ruc: {
+            selector: '#id_reg_estado_ruc',
+            validators: {
+                notEmpty: {
+                    message: 'Por favor, seleccione un estado para el RUC'
+                },
+                /*in: {
+                    param: ['activo', 'suspendido', 'cancelado', 'baja'],
+                    message: 'El estado seleccionado "{value}" no es válido. Por favor, seleccione una opción de la lista.'
+                }*/
+            }
+        },
+        tipo_contacto: {
+            selector: '#id_reg_tipo_contacto',
+            validators: {
+                notEmpty: {
+                    message: 'Campo Obligatorio'
+                }/*,
+                in: {
+                    param: ['activo', 'suspendido', 'cancelado', 'baja'],
+                    message: 'El estado seleccionado "{value}" no es válido. Por favor, seleccione una opción de la lista.'
+                }*/
+            }
+        },
+        nombre_contacto: {
+            selector: '#id_reg_nombre_contacto',
+            validators: {
+                notEmpty: {
+                    message: 'Campo Obligatorio'
+                },
+                minLength: {
+                    value: 3,
+                    message: 'El nombre debe tener al menos 3 caracteres'
+                },
+                regexp: {
+                    regexp: /^[a-zA-Z\s]+$/,
+                    message: 'Solo se permiten letras y espacios'
+                }
+            }
+        },
+        telefono_contacto: {
+            selector: '#id_reg_telefono_prov',
+            validators: {
+                notEmpty: {
+                    message: 'Campo Obligatorio'
+                },
+                stringLength: {
+                    min: 7,
+                    message: 'El número de teléfono debe tener 9 dígitos'
+                },
+            }
+        },
+        email_contacto: {
+            selector: '#id_reg_email_prov',
+            validators: {
+                notEmpty: {
+                    message: 'Campo Obligatorio'
+                },
+
+                // Nueva regla para verificar si el dominio es válido
+               /* domain: {
+                    message: 'El dominio del correo electrónico no es válido',
+                    validator: function(value) {
+                        // Lógica para verificar el dominio
+                        return value.split('@')[1] === 'ejemplo.com';
+                    }
+                }*/
+            }
+        }
+    }
+});
+
 
 /*
 

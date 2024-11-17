@@ -13,23 +13,23 @@ public class EnlaceController {
 	private CatalogoService catalogoService;
 
 	@GetMapping("/")
+	public String verInicio() {
+		return "index";
+	}
+
+	@GetMapping("/productos")
 	public String verProducto(Model model) {
 		//crear atributos
 		model.addAttribute("catalogos", catalogoService.findAll());
 		return "producto";
 	}
 
-	@GetMapping("/proveedor")
+	@GetMapping("/proveedores")
 	public String verProveedor() {
 		return "proveedor";
 	}
 
-	/*@GetMapping("/")
-	public String verInicio() {
-		return "intranetLogin";
-	}
-
-	@GetMapping("/home")
+	/*@GetMapping("/home")
 	public String verIntegraHome() {
 		return "integraHome";
 	}

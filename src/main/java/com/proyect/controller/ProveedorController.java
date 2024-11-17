@@ -44,7 +44,7 @@ public class ProveedorController {
 
 	}
 
-	@PostMapping("/insertProveedor")
+	@RequestMapping("/insertProveedor")
 	@ResponseBody
 	public Map<?, ?> registrarProveedor( Proveedor obj, @RequestParam(name = "cod_proveedor") Long cod) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -78,7 +78,7 @@ public class ProveedorController {
 				obj.setId_prov(cod);
 				obj.getRegistros().setActivo(AppSettings.ACTIVO);
 				obj.getRegistros().setModification_date(new Date());
-				Proveedor objSalida = ProveedorService.insertar(obj);
+				Proveedor objSalida = ProveedorService.actualizar(obj);
 				if (objSalida == null) {
 					map.put(DEFAULT_MESSAGE_ERROR_KEY, MSG_ERROR_REGISTRO);
 				} else {
@@ -97,85 +97,6 @@ public class ProveedorController {
 
 		return map;
 	}
-/*
-
-	@PutMapping("/actualizarProveedor")
-	@ResponseBody
-	public Map<?, ?> updateProveedor(Proveedor obj) {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		*/
-/*if (ValidacionesUtil.esVacioInt(obj.getCodigo_Proveedor())) {
-			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Campo Codigo no puede ser CERO");
-			return map;
-		}
-		if (ValidacionesUtil.esVacio(obj.getNombre_Proveedor())) {
-			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Campo apellido paterno vacío");
-			return map;
-		}
-		if (ValidacionesUtil.esVacioDouble(obj.getStock_Proveedor())) {
-			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Campo apellido materno vacío");
-			return map;
-		}
-		if (ValidacionesUtil.esVacioDouble(obj.getPrecio_Proveedor())) {
-			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Campo salario aprox. vacío");
-			return map;
-		}
-
-		if (ValidacionesUtil.esVacio(String.valueOf(obj.getTipo_documento()))) {
-			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Escoge un tipo de documento");
-			return map;
-		}
-		TipoDocumento[] tipoDocumentos = TipoDocumento.values();
-		boolean coincidenciatipoDocumentos = false;
-		for (TipoDocumento item : tipoDocumentos) {
-			if (obj.getTipo_documento().equalsIgnoreCase(item.toString().substring(0, 3))) {
-				obj.setTipo_documento(item.toString());
-				coincidenciatipoDocumentos = true;
-			}
-		}
-		if (!coincidenciatipoDocumentos) {
-			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Valor de Tipo Documento no valido");
-			return map;
-		}
-
-		if (ValidacionesUtil.esVacio(obj.getDocumento_Proveedor())) {
-			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Campo número documento vacío");
-			return map;
-		}
-
-		if (ValidacionesUtil.esVacio(obj.getDescripcion_Proveedor())) {
-			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Campo descripcion vacío");
-			return map;
-		}
-
-		if (ValidacionesUtil.esVacio(obj.getTipo().getDescripcion())) {
-			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Escoge un tipo de Proveedor");
-			return map;
-		}*//*
-
-
-		*/
-/*DataCatalogo dataCatalogo= dataCatalogoService.getFindById(obj.getData_catalogo().getIdDataCatalogo());
-		if (dataCatalogo == null) {
-			map.put(DEFAULT_MESSAGE_ERROR_KEY, MSG_TIPO_ERROR);
-			return map;
-		}
-		obj.setData_catalogo(dataCatalogo);*//*
-
-		obj.getRegistros().setActivo(AppSettings.ACTIVO);
-		obj.getRegistros().setModification_date(new Date());
-		Proveedor objSalida = ProveedorService.actualizar(obj);
-		if (objSalida == null) {
-			map.put(DEFAULT_MESSAGE_ERROR_KEY, MSG_ERROR_REGISTRO);
-		} else {
-			List<Proveedor> list = new ArrayList<>();
-			list.add(ProveedorService.buscarPorId(objSalida.getId_prov()).get());
-			map.put(DEFAULT_LIST_KEY, list);
-			map.put(DEFAULT_MESSAGE_KEY, MSG_ACTUALIZACION_OK);
-		}
-		return map;
-	}
-*/
 
 	@PostMapping("/cambiarEstadoProveedorCrud")
 	@ResponseBody

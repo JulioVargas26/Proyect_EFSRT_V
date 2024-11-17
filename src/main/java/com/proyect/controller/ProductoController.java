@@ -16,8 +16,6 @@ import static com.proyect.util.MessagesUtil.*;
 public class ProductoController {
 
     @Autowired
-    DataCatalogoService dataCatalogoService;
-    @Autowired
     ProductoService productoService;
 
     private final static String DEFAULT_PARAM_VALUE = "-1";
@@ -45,7 +43,7 @@ public class ProductoController {
 
     }
 
-    @PostMapping("/insertProducto")
+    @RequestMapping("/insertProducto")
     @ResponseBody
     public Map<?, ?> registrarProducto(@ModelAttribute Producto obj, @RequestParam(name = "cod_producto") Long cod) {
         HashMap<String, Object> map = new HashMap<String, Object>();
@@ -59,6 +57,7 @@ public class ProductoController {
         System.out.println("DOCUMENTO PRODUCTO : " + obj.getDoc_prod());
         System.out.println("DATA CATALOGO : " + obj.getData_catalogo().getId_data_catalogo());
         System.out.println("REGISTROS : " + obj.getRegistros().getActivo() + " " + obj.getRegistros().getCreation_date() + " " + obj.getRegistros().getModification_date());
+
         try {
             if (cod == 0) {
                 Producto objSalida = productoService.insertar(obj);
@@ -70,7 +69,7 @@ public class ProductoController {
                 } else {
                     List<Producto> list = new ArrayList<>();
                     list.add(productoService.buscarPorId(objSalida.getId_prod()).get());
-                    System.out.print("ID NUEVO PRESTATARIO : " + obj.getId_prod());
+                    System.out.print("ID NUEVO PRODUCTO : " + obj.getId_prod());
                     map.put(DEFAULT_LIST_KEY, list);
                     map.put(DEFAULT_MESSAGE_KEY, MSG_REGISTRO_OK);
                 }
@@ -101,7 +100,7 @@ public class ProductoController {
     @ResponseBody
     public Map<?, ?> updateProducto(Producto obj) {
         HashMap<String, Object> map = new HashMap<String, Object>();
-        *//*if (ValidacionesUtil.esVacioInt(obj.getCodigo_producto())) {
+        if (ValidacionesUtil.esVacioInt(obj.getCodigo_producto())) {
 			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Campo Codigo no puede ser CERO");
 			return map;
 		}
@@ -148,14 +147,14 @@ public class ProductoController {
 		if (ValidacionesUtil.esVacio(obj.getTipo().getDescripcion())) {
 			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Escoge un tipo de producto");
 			return map;
-		}*//*
+		}
 
-     *//*DataCatalogo dataCatalogo= dataCatalogoService.getFindById(obj.getData_catalogo().getIdDataCatalogo());
+     DataCatalogo dataCatalogo= dataCatalogoService.getFindById(obj.getData_catalogo().getIdDataCatalogo());
 		if (dataCatalogo == null) {
 			map.put(DEFAULT_MESSAGE_ERROR_KEY, MSG_TIPO_ERROR);
 			return map;
 		}
-		obj.setData_catalogo(dataCatalogo);*//*
+		obj.setData_catalogo(dataCatalogo);
 		obj.getRegistros().setActivo(AppSettings.ACTIVO);
 		obj.getRegistros().setModification_date(new Date());
 		Producto objSalida = productoService.actualizar(obj);
@@ -170,6 +169,7 @@ public class ProductoController {
 		return map;
 	}
 */
+
     @PostMapping("/cambiarEstadoProductoCrud")
     @ResponseBody
     public Map<?, ?> changeEstadoProductoCrud(Long id_producto) {

@@ -16,6 +16,8 @@ public class Proveedor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_prov;
+
+    @Column(unique = true)
     private String ruc;
 
     private String razon_social;
@@ -26,6 +28,8 @@ public class Proveedor {
     private String tipo_contacto;
     private String nombre_contacto;
     private String telefono_contacto;
+
+    @Column(unique = true)
     private String email_contacto;
 
     @Embedded
