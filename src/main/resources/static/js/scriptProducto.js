@@ -206,7 +206,6 @@ $(document).on("change","#id_reg_catalogo",function(){
         $("#id_reg_data_catalogo").val(idDataCatalogo);
     })
 })
-
 //asignar evento change al select con ID "id_act_catalogo"
 /*
 $(document).on("change","#id_act_catalogo",function(){

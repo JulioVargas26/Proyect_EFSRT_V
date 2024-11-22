@@ -112,8 +112,7 @@ $(function() {
 		const text = textarea.val().trim(); // Trim leading/trailing whitespace
 
 		// Alphanumeric validation and character count
-		const alphanumericText = text.replace(/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ\-\s]+$/g, "");
-		const remainingChars = Math.max(0, maxLength - alphanumericText.length);
+		const alphanumericText = text.replace(/[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ\-\s.,]/, "");
 
 		// Update textarea value and character count display
 		textarea.val(alphanumericText.slice(0, maxLength));

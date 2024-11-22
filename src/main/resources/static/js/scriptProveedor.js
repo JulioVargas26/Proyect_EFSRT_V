@@ -49,41 +49,45 @@
 (() => {
     'use strict';
 
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    // Fetch all forms with the 'needs-validation' class
     const forms = document.querySelectorAll('.needs-validation');
 
-    // Loop over them and prevent submission
+    // Loop over each form
     Array.from(forms).forEach(form => {
-        form.addEventListener('submit', event => {
+        // Add a submit event listener
+        form.addEventListener('submit', (event) => {
+            // Prevent default submission if the form is invalid
             if (!form.checkValidity()) {
                 event.preventDefault();
                 event.stopPropagation();
             }
 
+            // Add the 'was-validated' class to display validation messages
             form.classList.add('was-validated');
-        }, false);
+        });
 
-        // Find the button with the ID "id_btn_registra"
-        const btn = form.querySelector('#id_btn_reg_prov');
+        // Find the button with the ID "id_btn_reg_prov"
+        const submitButton = form.querySelector('#id_btn_reg_prov');
 
-        // Add a click event listener to the button
-        if (btn) {
-            btn.addEventListener('click', event => {
-                // Prevent the default behavior of the button (submitting the form)
+        // Add a click event listener to the submit button
+        if (submitButton) {
+            submitButton.addEventListener('click', (event) => {
+                // Prevent default button behavior
                 event.preventDefault();
+                event.stopPropagation();
 
-                // Trigger the form's submit event manually
-                form.dispatchEvent(new Event('submit'));
+                // Manually trigger form submission
+                form.submit();
             });
         }
 
-        // Find the button with the data-bs-dismiss="modal" attribute
+        // Find the close button with the data-bs-dismiss="modal" attribute
         const closeButton = form.querySelector('[data-bs-dismiss="modal"]');
 
         // Add a click event listener to the close button
         if (closeButton) {
             closeButton.addEventListener('click', () => {
-                // Reset the form to its initial state
+                // Reset the form and remove the 'was-validated' class
                 form.reset();
                 form.classList.remove('was-validated');
             });
@@ -164,8 +168,8 @@ $("#btnConsultaSunat").click(function () {
             console.log(response);
             var jsonData = JSON.parse(response);
             $("#id_buscar_api_numero_documento").val(jsonData.numeroDocumento).prop('readonly', true);
-            $('#id_reg_direccion_fiscal').val(jsonData.direccion).prop('readonly', true);
             $("#id_reg_razon_social").val(jsonData.razonSocial).prop('readonly', true);
+            $('#id_reg_direccion_fiscal').val(jsonData.direccion).prop('readonly', true);
             $("#id_reg_condicion_ruc").val(jsonData.condicion).prop('readonly', true);
             $("#id_reg_estado_ruc").val(jsonData.estado).prop('readonly', true);
 
@@ -607,7 +611,7 @@ $('#id_form_proveedor').bootstrapValidator({
                     message: 'La razón social debe tener entre 3 y 100 caracteres'
                 },
                 regexp: {
-                    regexp: /^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ\-\s]+$/,
+                    regexp: /^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ\s]+$/,
                     message: 'Solo se permiten letras, números y espacios'
                 }
             }

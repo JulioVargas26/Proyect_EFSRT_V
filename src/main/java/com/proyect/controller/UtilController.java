@@ -99,6 +99,7 @@ public class UtilController {
 		return map;
 	}
 
+
 	@GetMapping("/listarPorDataCatalogo/{catalogoId}")
 	@ResponseBody
 	public List<DataCatalogo> dataCatalogoList(@PathVariable Long catalogoId) {
